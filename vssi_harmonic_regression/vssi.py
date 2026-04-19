@@ -22,12 +22,15 @@ from .vssi_dialog import VegetationSeasonalStabilityIndexDialog
 class VegetationSeasonalStabilityIndex:
     """QGIS Plugin Implementation."""
 
+    SETTINGS_KEY_PROJECT_ID = 'vssi_plugin/gee_project_id'
+
     def __init__(self, iface):
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
         self.actions = []
         self.menu = self.tr(u'&EcoLand-OS')
         self.first_start = None
+        self.ee_initialized = False
     
     def tr(self, message):
         return QCoreApplication.translate('VegetationSeasonalStabilityIndex', message)
@@ -54,6 +57,66 @@ class VegetationSeasonalStabilityIndex:
             self.iface.removePluginMenu(self.tr(u'&EcoLand-OS'), action)
             self.iface.removeToolBarIcon(action)
 
+    def _load_saved_project_id(self):
+        """Load the saved GEE project ID from QSettings."""
+        return QSettings().value(self.SETTINGS_KEY_PROJECT_ID, '', type=str)
+
+    def _save_project_id(self, project_id):
+        """Persist the GEE project ID to QSettings."""
+        QSettings().setValue(self.SETTINGS_KEY_PROJECT_ID, project_id)
+
+    def authenticate_ee(self):
+        """Run the Earth Engine browser-based authentication flow."""
+        project_id = self.dlg.lineProjectId.text().strip()
+        if not project_id:
+            QMessageBox.warning(None, "Project ID Required",
+                                "Please enter your Google Earth Engine project ID before authenticating.\n\n"
+                                "You can find or create a project at:\nhttps://console.cloud.google.com/")
+            return
+
+        self.dlg.labelAuthStatus.setText("Authenticating...")
+        self.dlg.btnAuthenticate.setEnabled(False)
+        QCoreApplication.processEvents()
+
+        try:
+            ee.Authenticate()
+            ee.Initialize(project=project_id)
+            self.ee_initialized = True
+            self._save_project_id(project_id)
+            self.dlg.labelAuthStatus.setText("Authenticated ✓")
+            self.dlg.labelAuthStatus.setStyleSheet("color: green; font-weight: bold;")
+        except Exception as e:
+            self.ee_initialized = False
+            self.dlg.labelAuthStatus.setText("Authentication failed")
+            self.dlg.labelAuthStatus.setStyleSheet("color: red;")
+            QMessageBox.critical(None, "Authentication Error",
+                                 f"Earth Engine authentication failed:\n{e}")
+        finally:
+            self.dlg.btnAuthenticate.setEnabled(True)
+
+    def initialize_ee(self):
+        """Try to initialize EE with saved credentials (no browser prompt)."""
+        if self.ee_initialized:
+            return True
+
+        project_id = self.dlg.lineProjectId.text().strip()
+        if not project_id:
+            project_id = self._load_saved_project_id()
+
+        if not project_id:
+            return False
+
+        try:
+            ee.Initialize(project=project_id)
+            self.ee_initialized = True
+            self._save_project_id(project_id)
+            self.dlg.labelAuthStatus.setText("Authenticated ✓")
+            self.dlg.labelAuthStatus.setStyleSheet("color: green; font-weight: bold;")
+            return True
+        except Exception:
+            self.ee_initialized = False
+            return False
+
     def run(self):
         if self.first_start == True:
             self.first_start = False
@@ -61,6 +124,16 @@ class VegetationSeasonalStabilityIndex:
             
             self.dlg.btnRun.clicked.connect(self.run_gee_analysis)
             self.dlg.btnBrowse.clicked.connect(self.browse_local_folder)
+            self.dlg.btnAuthenticate.clicked.connect(self.authenticate_ee)
+
+            # Restore saved project ID
+            saved_id = self._load_saved_project_id()
+            if saved_id:
+                self.dlg.lineProjectId.setText(saved_id)
+                # Try silent initialization with saved credentials
+                if self.initialize_ee():
+                    self.dlg.labelAuthStatus.setText("Authenticated ✓")
+                    self.dlg.labelAuthStatus.setStyleSheet("color: green; font-weight: bold;")
 
         self.dlg.comboRoi.clear()
         layers = QgsProject.instance().mapLayers().values()
@@ -85,12 +158,12 @@ class VegetationSeasonalStabilityIndex:
     def run_gee_mode(self):
         """The core Earth Engine logic, translated to Python"""
         
-        # Initialize Earth Engine
-        try:
-            # We initialize without a project string; it uses the default terminal auth
-            ee.Initialize(project='')  ##### enter your project id here
-        except Exception as e:
-            QMessageBox.critical(None, "EE Error", f"Earth Engine failed to initialize. Please run 'earthengine authenticate' in your terminal.\n\nError: {e}")
+        # Initialize Earth Engine using the integrated auth system
+        if not self.initialize_ee():
+            QMessageBox.warning(None, "EE Authentication Required",
+                                "Earth Engine is not authenticated.\n\n"
+                                "Please enter your GEE Project ID in the "
+                                "'Earth Engine Authentication' section and click 'Authenticate'.")
             return
 
         # Grab inputs from UI
