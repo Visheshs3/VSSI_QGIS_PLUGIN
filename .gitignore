@@ -1,0 +1,35 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Test and coverage outputs
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Distribution / packaging artifacts
+build/
+dist/
+*.egg-info/
+*.whl
+*.zip
+
+# IDE / OS files
+.vscode/
+.idea/
+.DS_Store
+
+# QGIS plugin generated artifacts
+*.qmlc
+*.qrc.depends
+
+# Local sample/generated data for plugin testing
+sample_vssi_local_data/
+*.tif.aux.xml

@@ -87,10 +87,19 @@ class VegetationSeasonalStabilityIndex:
         
         # Initialize Earth Engine
         try:
-            # We initialize without a project string; it uses the default terminal auth
-            ee.Initialize(project='')  ##### enter your project id here
+            ee_project_id = os.environ.get('EE_PROJECT_ID', '').strip()
+            if ee_project_id:
+                ee.Initialize(project=ee_project_id)
+            else:
+                ee.Initialize()
         except Exception as e:
-            QMessageBox.critical(None, "EE Error", f"Earth Engine failed to initialize. Please run 'earthengine authenticate' in your terminal.\n\nError: {e}")
+            QMessageBox.critical(
+                None,
+                "EE Error",
+                "Earth Engine failed to initialize. Authenticate with 'earthengine authenticate' and, "
+                "if required for your account, set EE_PROJECT_ID before launching QGIS."
+                f"\n\nError: {e}"
+            )
             return
 
         # Grab inputs from UI

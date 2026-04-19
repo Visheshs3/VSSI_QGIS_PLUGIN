@@ -6,14 +6,14 @@
 name=EcoLand-OS
 qgisMinimumVersion=3.0
 description=Healthy forests exhibit stable seasonal vegetation cycles, while stressed ecosystems show abnormal intra-annual variability.
-version=0.1
+version=0.1.0
 author=Vishesh
 email=vishesh.singhal@research.iiit.ac.in
 
-about=Provide a brief description of the plugin and its purpose.
+about=EcoLand-OS computes Vegetation Seasonal Stability Index (VSSI) using harmonic regression from either Google Earth Engine MODIS time series or local NDVI GeoTIFF stacks.
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/Visheshs3/VSSI_QGIS_PLUGIN/issues
+repository=https://github.com/Visheshs3/VSSI_QGIS_PLUGIN
 # End of mandatory metadata
 
 # Recommended items:
@@ -23,13 +23,13 @@ hasProcessingProvider=no
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=qgis, remote sensing, ndvi, forest monitoring, earth engine
 
-homepage=http://homepage
-category=Plugins
+homepage=https://github.com/Visheshs3/VSSI_QGIS_PLUGIN
+category=Raster
 icon=icon.png
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
