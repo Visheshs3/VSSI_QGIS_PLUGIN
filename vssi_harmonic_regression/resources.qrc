@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/vssi_harmonic_regression" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>

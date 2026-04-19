@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>725</width>
+    <height>574</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="comboRoilabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>171</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Select ROI Layer:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboRoi">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>221</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="spinStartYearlabel">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>10</y>
+     <width>70</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start Year</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="spinEndYearlabel">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>10</y>
+     <width>70</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>End Year</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="spinIntervallabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>161</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Interval (Years)</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinStartYear">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>30</y>
+     <width>221</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>2000</number>
+   </property>
+   <property name="maximum">
+    <number>2100</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinEndYear">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>30</y>
+     <width>221</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>2000</number>
+   </property>
+   <property name="maximum">
+    <number>2100</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinInterval">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>221</width>
+     <height>28</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupDataSource">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>691</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Data Source</string>
+    </property>
+    <widget class="QLabel" name="labelDataSource">
+     <property name="geometry">
+      <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>121</width>
+        <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Data Source:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboMode">
+     <property name="geometry">
+      <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>221</width>
+        <height>31</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+        <string>GEE (Online)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+        <string>Local Files</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="labelLocalPath">
+     <property name="geometry">
+      <rect>
+        <x>250</x>
+        <y>30</y>
+        <width>421</width>
+        <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Local NDVI Folder (only for Local Files mode):</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineLocalPath">
+     <property name="geometry">
+      <rect>
+        <x>250</x>
+        <y>50</y>
+        <width>321</width>
+        <height>31</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>Select folder...</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnBrowse">
+     <property name="geometry">
+      <rect>
+        <x>580</x>
+        <y>50</y>
+        <width>101</width>
+        <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Browse...</string>
+     </property>
+    </widget>
+  </widget>
+  <widget class="QPushButton" name="btnRun">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+      <y>270</y>
+     <width>211</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Run Harmonic Regression</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableResults">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+      <y>310</y>
+     <width>701</width>
+      <height>241</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
