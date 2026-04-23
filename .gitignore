@@ -33,3 +33,5 @@ dist/
 # Local sample/generated data for plugin testing
 sample_vssi_local_data/
 *.tif.aux.xml
+
+*.zip
