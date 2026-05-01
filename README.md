@@ -46,6 +46,14 @@
    * **Local Files**: Browse and select a Local NDVI Folder.
 5. Click **Run Harmonic Regression** to begin the processing. The output will be loaded into the QGIS map canvas upon completion.
 
+## Local Files Input Format
+- Folder must contain .tif files.
+- Each filename must include a date string in format YYYY-MM-DD.
+  Example: NDVI_2021-06-15.tif
+- Raster should be single-band NDVI with scale factor 0.0001.
+- NoData value expected by the plugin: -28672.
+- Rasters in one run should have the same width/height.
+
 ## Issues and Feedback
 If you encounter any bugs, issues, or have feature requests, please report them on the [Issue Tracker](https://github.com/Visheshs3/VSSI_QGIS_PLUGIN/issues).
 
